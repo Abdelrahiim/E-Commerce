@@ -1,0 +1,103 @@
+{% extends 'base.html'%} {% block title %}Product Detail{% endblock title %}
+{%block body %}
+<table class="table table-dark ">
+  <thead>
+    <tr>
+      <th scope="col">id</th>
+      <th scope="col">name</th>
+      <th scope="col">SKU</th>
+      <th scope="col">Price</th>
+      <th scope="col">Units</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for i in data %}
+    <tr>
+      <th scope="row">{{i.id}}</th>
+      <td>{{i.product__name}}</td>
+      <td>{{i.sku}}</td>
+      <td>{{i.store_price}}</td>
+      <td>{{i.Stock_Product_inventory__units}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% comment %}
+<table class="table table-dark my-2">
+  <thead>
+    <tr>
+      <th scope="col">attribute</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for i in z %}
+    <tr>
+      <th scope="row">{{i.product_attribute__name |title}}</th>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endcomment %}
+<style>
+  ul {
+    list-style-type: none;
+  }
+</style>
+
+<ul>
+  {% for i in z %}
+  <li>{{i.product_attribute__name |title}}</li>
+  <ul>
+    {% for j in y %}
+    {% if j.attribute_values__product_attribute__name == i.product_attribute__name%}
+    {% for k in data %}
+    {% ifchanged k.field_a %}
+    {% if j.attribute_values__attribute_value in k.field_a %}
+    <li>
+      <input class="selected btn btn-outline-success active my-2" type="button"
+        data-attribute="{{i.product_attribute__name}}" value="{{j.attribute_values__attribute_value}}"
+        id="target-{{j.attribute_values__attribute_value}}" />
+    </li>
+    {% else %}
+    <li>
+      <input class="btn btn-outline-success  my-2" type="button" data-attribute="{{i.product_attribute__name}}"
+        value="{{j.attribute_values__attribute_value}}" id="target-{{j.attribute_values__attribute_value}}" />
+    </li>
+    {% endif %}
+    {% endifchanged %}
+    {% endfor %}
+    {% endif %} {% endfor %}
+  </ul>
+  {% endfor %}
+</ul>
+
+<script>
+  let d = {};
+  let textBoxes = document.querySelectorAll('[id^=target]');
+
+  [...textBoxes].forEach(element => {
+    if (element.classList.contains('selected')) {
+      d[element.getAttribute('data-attribute')] = element.getAttribute('value')
+    }
+
+    element.addEventListener('click', (e) => {
+      let value = e.target.getAttribute('value');
+      d[e.target.getAttribute('data-attribute')] = e.target.getAttribute('value');
+      let queryString = buildUrlWithParams(d);
+      let url = window.location.href.split("?")[0];
+      window.location.href = url + "?" + queryString;
+    }, false);
+  });
+
+  function buildUrlWithParams(data) {
+    var searchParams = [];
+    for (let d in data)
+      searchParams.push(d + '=' + data[d]);
+    return searchParams.join('&');
+  }
+
+
+
+</script>
+{% endblock body %}

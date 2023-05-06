@@ -1,0 +1,10 @@
+{% extends 'base.html' %} {% block title %} Home {% endblock title %}
+{% block body %}
+
+<div class="container bg-light ">
+    <h1 class="my-3" style='text-align: center;'>Home Page</h1>
+    <div class="col-md-12 text-center">
+        <a href="{% url 'categories'%}" class="btn btn-primary btn-lg">Categories</a>
+    </div>
+</div>
+{% endblock body %}
