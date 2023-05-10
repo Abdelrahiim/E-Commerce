@@ -68,37 +68,44 @@ services:
     image: redis:alpine
     ports:
       - 6379:6379
-  # celery:
-  #   container_name: celery_ecommercev2
-  #   restart: always
-  #   build:
-  #     context: .
-  #   command: celery -A ecommerce worker -l info
-  #   environment:
-  #     - DEBUG=1
-  #     - CELERY_BROKER=redis://redis:6379/0
-  #     - CELERY_BACKEND=redis://redis:6379:0
-  #   depends_on:
-  #     - redis
-  #   volumes:
-  #     - .:/usr/src/app/
-  # celery-beat:
-  #   container_name: celery_beat_ecommerce
-  #   restart: always
-  #   build:
-  #     context: .
-  #   command: celery -A ecommerce beat -l info
-  #   depends_on:
-  #     - redis
-  #     - celery
-  #   volumes:
-  #     - .:/usr/src/app/
-  # flower:
-  #   container_name: flower_ecommerce
-  #   image: mher/flower
-  #   environment:
-  #     - CELERY_BROKER_URL=redis://redis:6379/0
-  #     - FLOWER_PORT=8888
-  #   ports:
-  #     - 8888:8888
+  celery:
+    container_name: celery_ecommerce
+    # restart: always
+    build:
+      context: .
+    command: celery -A ecommerce worker -l info
+    environment:
+      - SECRET_KEY=django-insecure-yis*&11l6rxp8flh5*6xdl#4_%b-!sqao1ra6gz!2ln6=@y%%7
+      - NAME=postgres
+      - USER=postgres
+      - PASSWORD=postgres
+      - HOST=pgdb
+      - PORT=5432
+      - ESEARCH=esearch
+      - CELERY_BROKER_URL:"redis://redis:6379/0"
+      - CELERY_RESULT_BACKEND:"redis://redis:6379/0"
+    depends_on:
+      - redis
+      - pgdb
+    volumes:
+      - .:/usr/src/app/
+  celery-beat:
+    container_name: celery_beat_ecommerce
+    restart: always
+    build:
+      context: .
+    command: celery -A ecommerce beat -l info
+    depends_on:
+      - redis
+      - celery
+    volumes:
+      - .:/usr/src/app/
+  flower:
+    container_name: flower_ecommerce
+    image: mher/flower
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - FLOWER_PORT=8888
+    ports:
+      - 8888:8888
 

@@ -1,8 +1,10 @@
 # Environments #
 ################
-env/
-.vscode/
 
+*.lock
+.vscode/
+graph.json
+celerybeat-schedule
 # Django #
 ##########
 *.log

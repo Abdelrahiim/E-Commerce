@@ -11,7 +11,7 @@ from .serializers import CategorySerializer, ProductInventorySerializer, Product
 
 # ---------------------------------------------------------------
 @extend_schema_view(get=extend_schema(tags=["Categories"]))
-class CategoryList(ListAPIView):
+class CategoryList(APIView):
     # ------------------------------
     # @swagger_auto_schema(
     #     responses={200: CategorySerializer(many=True)},
@@ -27,7 +27,7 @@ class CategoryList(ListAPIView):
 
 
 # ---------------------------------------------------------------
-class ProductByCategory(ListAPIView):
+class ProductByCategory(APIView):
     # ------------------------------
     # @swagger_auto_schema(
     #     responses={200: ProductSerializer(many=True)},

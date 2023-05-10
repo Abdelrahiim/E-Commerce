@@ -80,7 +80,6 @@ class ProductInventorySerializer(serializers.ModelSerializer):
             "is_default",
             "brand",
             "product",
-            "is_on_sale",
             "weight",
             "media",
             "attributes",

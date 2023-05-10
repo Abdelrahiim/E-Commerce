@@ -4,4 +4,5 @@ pytest_plugins = [
     "ecommerce.tests.factories",
     "ecommerce.tests.api_client",
     "ecommerce.tests.promotion_fixtures",
+    "celery.contrib.pytest",
 ]

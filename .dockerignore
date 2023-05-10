@@ -1,0 +1,20 @@
+# Environments #
+################
+.venv
+.vscode
+
+.env
+
+__pycache__
+
+fixtures
+
+.pytest_cache
+Pipfile
+*.lock
+*.json
+
+
+# Other #
+*.md
+*.exe

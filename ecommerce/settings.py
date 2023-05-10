@@ -14,6 +14,7 @@ import os
 from pathlib import Path
 
 import environ
+from celery.schedules import crontab
 
 # Initialise environment variables
 env = environ.Env()
@@ -175,6 +176,15 @@ ELASTICSEARCH_DSL = {
     "default": {"hosts": env("ESEARCH")},
 }
 
+CELERY_BROKER_URL = env("REDIS")
+CELERY_RESULT_BACKEND = env("REDIS")
+
+CELERY_BEAT_SCHEDULE = {
+    "sample_task": {
+        "task": "ecommerce.promotion.promotion_management",
+        "schedule": crontab(minute="0", hour="1"),
+    },
+}
 
 REST_FRAMEWORK = {
     "DEFAULT_RENDERER_CLASSES": [
@@ -206,7 +216,7 @@ REST_FRAMEWORK = {
 
 SPECTACULAR_SETTINGS = {
     "TITLE": "E-Commerce API",
-    "DESCRIPTION": "Your project description",
+    "DESCRIPTION": "E Commerce Project",
     "VERSION": "1.1.0",
     "SERVE_INCLUDE_SCHEMA": False,
     # OTHER SETTINGS
